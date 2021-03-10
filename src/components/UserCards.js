@@ -12,14 +12,14 @@ export default class UserCards extends React.Component {
   setUser = newUser => {
     this.setState({
       ...this.state,
-      user: {login: newUser.login, avatar_url: newUser.avatar_url, description: [ ['name', newUser.name], ['location', newUser.location], ['profile', newUser.html_url], ['followers', newUser.followers], ['following', newUser.following], ['bio', newUser.bio]]},
+      user: {login: newUser.login, avatar_url: newUser.avatar_url, profile: newUser.html_url, description: [ ['name', newUser.name], ['location', newUser.location], ['followers', newUser.followers], ['following', newUser.following], ['bio', newUser.bio]]},
     });
   }
 
   setFollowers = followers => {
     this.setState({
       ...this.state,
-      followers: followers.map( follower => {return { login: follower.login, avatar_url: follower.avatar_url}} ),
+      followers: followers.map( follower => {return { login: follower.login, avatar_url: follower.avatar_url, profile: follower.html_url,}} ),
     });
   }
 
@@ -41,8 +41,9 @@ export default class UserCards extends React.Component {
   render(){
     return (
       <div>
-        Hello
+        <h1>User</h1>
         <UserCard user={this.state.user}/>
+        <h1>Friends</h1>
         {this.state.followers.map( (follower, i) => <UserCard key={i} user={follower} />)}
       </div>
     )

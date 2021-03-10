@@ -1,7 +1,12 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import Form from './components/Form';
 import UserCards from './components/UserCards';
+
+const DivMain = styled.div`
+  text-align: center;
+`
 
 export default class App extends React.Component {
 
@@ -21,10 +26,10 @@ export default class App extends React.Component {
 
   render(){
     return (
-      <div>
+      <DivMain>
         <Form setNameToSearch={this.setNameToSearch}/>
         <UserCards nameToSearch={this.state.nameToSearch}></UserCards>
-      </div>
+      </DivMain>
     )
   }
 }
