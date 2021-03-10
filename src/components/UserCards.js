@@ -7,6 +7,7 @@ export default class UserCards extends React.Component {
   state = {
     user: {},
     followers: [],
+    error: '',
   }
 
   setUser = newUser => {
@@ -23,28 +24,42 @@ export default class UserCards extends React.Component {
     });
   }
 
+  setError = error => {
+    this.setState({
+      ...this.state,
+      error: error
+    })
+  }
+
   componentDidUpdate(prevProps){
     if(this.props.nameToSearch !== prevProps.nameToSearch){
+      document.body.style.cursor = 'wait';
       fetch(`https://api.github.com/users/${this.props.nameToSearch}`)
         .then(response => response.json())
         .then( data => {
           this.setUser(data)
           console.log(data);
+          this.setError('')
           return fetch(data.followers_url);
         })
         .then( respones => respones.json())
         .then( data => this.setFollowers(data))
-        .catch( err => console.log(err))
+        .catch( err => this.setError(`Could not find user with login ${this.props.nameToSearch}`))
+      document.body.style.cursor = 'pointer';
     }
   }
 
   render(){
     return (
       <div>
-        <h1>User</h1>
-        <UserCard user={this.state.user}/>
-        <h1>Friends</h1>
-        {this.state.followers.map( (follower, i) => <UserCard key={i} user={follower} />)}
+        {this.state.error !== '' && <h1>{this.state.error}</h1>}
+        {(this.props.nameToSearch !== '' && this.state.error === '') &&
+        <div>
+          <h1>User</h1>
+          <UserCard user={this.state.user}/>
+          <h1>Friends</h1>
+          {this.state.followers.map( (follower, i) => <UserCard key={i} user={follower} />)}
+        </div>}
       </div>
     )
   }

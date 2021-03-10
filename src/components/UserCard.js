@@ -7,6 +7,7 @@ const DivMain = styled.div`
   box-shadow: 0 0 3px #808080;
   display: flex;
   margin: 20px auto;
+  overflow: hidden;
   width: 500px;
 `
 
