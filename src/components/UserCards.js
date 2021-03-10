@@ -31,8 +31,9 @@ export default class UserCards extends React.Component {
     })
   }
 
-  componentDidUpdate(prevProps){
-    if(this.props.nameToSearch !== prevProps.nameToSearch){
+  componentDidUpdate(prevProps, prevState){
+    // gets new name
+    if(this.props.nameToSearch !== prevProps.nameToSearch){ 
       document.body.style.cursor = 'wait';
       fetch(`https://api.github.com/users/${this.props.nameToSearch}`)
         .then(response => response.json())
@@ -45,7 +46,12 @@ export default class UserCards extends React.Component {
         .then( respones => respones.json())
         .then( data => this.setFollowers(data))
         .catch( err => this.setError(`Could not find user with login ${this.props.nameToSearch}`))
-      document.body.style.cursor = 'pointer';
+    }
+    
+    //should better test if the follower array is not the same as before
+    if(this.state.followers[0] !== prevState.followers[0]){
+      console.log(prevState, this.state);
+      document.body.style.cursor = '';
     }
   }
 
@@ -56,9 +62,9 @@ export default class UserCards extends React.Component {
         {(this.props.nameToSearch !== '' && this.state.error === '') &&
         <div>
           <h1>User</h1>
-          <UserCard user={this.state.user}/>
+          <UserCard user={this.state.user} setNameToSearch={this.props.setNameToSearch}/>
           <h1>Friends</h1>
-          {this.state.followers.map( (follower, i) => <UserCard key={i} user={follower} />)}
+          {this.state.followers.map( (follower, i) => <UserCard key={i} user={follower} setNameToSearch={this.props.setNameToSearch}/>)}
         </div>}
       </div>
     )

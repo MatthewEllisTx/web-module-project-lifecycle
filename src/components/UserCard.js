@@ -5,6 +5,7 @@ const DivMain = styled.div`
   border: 1px solid #808080;
   border-radius: 10px;
   box-shadow: 0 0 3px #808080;
+  cursor: pointer;
   display: flex;
   margin: 20px auto;
   overflow: hidden;
@@ -23,9 +24,14 @@ const DivWords = styled.div`
 `
 
 export default class UserCard extends React.Component {
+
+  onClick = () => {
+    this.props.setNameToSearch(this.props.user.login);
+  }
+
   render(){
     return (
-      <DivMain>
+      <DivMain onClick={this.onClick}>
         <ImgProfile src={this.props.user.avatar_url} alt={`${this.props.user.login}'s profile pic`}/>
         <DivWords>
           <h3>{this.props.user.login}</h3>

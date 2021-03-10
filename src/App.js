@@ -28,7 +28,7 @@ export default class App extends React.Component {
     return (
       <DivMain>
         <Form setNameToSearch={this.setNameToSearch}/>
-        <UserCards nameToSearch={this.state.nameToSearch}></UserCards>
+        <UserCards nameToSearch={this.state.nameToSearch} setNameToSearch={this.setNameToSearch}></UserCards>
       </DivMain>
     )
   }
